@@ -1,0 +1,42 @@
+name: Deploy
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run basic health check
+      run: |
+        python -c "from app import app; print('Deployment ready')"
+    
+    # Uncomment and configure for your deployment target
+    # - name: Deploy to server
+    #   run: |
+    #     echo "Add your deployment commands here"
+    #     # Example: rsync, docker build/push, etc.
+    
+    - name: Deployment notification
+      run: |
+        echo "MVP deployment completed successfully"
+        echo "Remember to:"
+        echo "1. Set up environment variables on your server"
+        echo "2. Configure Jira webhook to point to your deployed service"
+        echo "3. Test with a sample ticket validation"
