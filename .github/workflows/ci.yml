@@ -32,6 +32,12 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     
     - name: Test application startup
+      env:
+        JIRA_URL: "https://test.atlassian.net"
+        JIRA_USERNAME: "test@example.com"
+        JIRA_API_TOKEN: "test-token"
+        OPENAI_API_KEY: "test-key"
+        SCRUM_MASTER_EMAIL: "test@example.com"
       run: |
         # Basic test to ensure app can start without errors
         python -c "from app import app; print('App imports successfully')"
